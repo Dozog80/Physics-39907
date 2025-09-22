@@ -37,7 +37,7 @@ phimono = (pi*N*D^2)/(4*Lx*Ly); % Monodispersity packing fraction using D = 2
 % This results in the following formula for the area fraction:
 % phi (area fraction) = 80 * pi * (2^2) / (4 * 18 * 22)
 
-TT=100; % total simulation time
+TT=1000; % total simulation time
 
 %% Physical Parameters
 g=0;
@@ -219,3 +219,4 @@ slope = x(1) % Slope is around 1.9 - 2, which means that
 % log(std_energy) ~ 2 * log(dt), which gives 
 % std_energy ~ dt ^ 2, which means that the error scales as the order of
 % the time step squared, which is expected for Velocity Verlet. 
+
