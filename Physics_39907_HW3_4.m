@@ -174,12 +174,6 @@ for run = 1:5
         Fws(nt,4) = -K * sum(dw); % top wall force
 
 
-        % Fws(nt,1) = K * sum(dw.^2) / 2; % left wall force
-        % Fws(nt,2) = K * sum(dw.^2) / 2; % bottom wall force
-        % Fws(nt,3) = K * sum(dw.^2) / 2; % right wall force
-        % Fws(nt,4) = K * sum(dw.^2) / 2; % top wall force
-
-
         ax=Fx./M;
         ay=Fy./M-g;
 
@@ -194,37 +188,22 @@ for run = 1:5
     end
 
 
-    % P_left = sum(Fws(nt,1)) / Ly;
-    % P_bottom = sum(Fws(nt,2)) / Lx;
-    % P_right = sum(Fws(nt,3)) / Ly;
-    % P_top = sum(Fws(nt,4)) / Lx;
 
+ % Average Force skipping initial 10 percent of simulation
+    Fl = mean(Fws(fix(0.1 * Nt):end,1));
+    Fb = mean(Fws(fix(0.1 * Nt):end,2));
+    Fr = mean(Fws(fix(0.1 * Nt):end,3));
+    Ft = mean(Fws(fix(0.1 * Nt):end,4));
 
+    Pl = Fl / Ly;
+    Pb = Fb / Lx;
+    Pr = Fr / Ly;
+    Pt = Ft / Lx;
 
-
-
-
-
-    % Skip initial 10% of data to reach steady state
-    start_idx = fix(0.1 * Nt);
-
-    % Mean force per wall over time
-    F_left_avg   = mean(Fws(start_idx:end,1));
-    F_bottom_avg = mean(Fws(start_idx:end,2));
-    F_right_avg  = mean(Fws(start_idx:end,3));
-    F_top_avg    = mean(Fws(start_idx:end,4));
-
-    % Pressure = Force / Length
-    P_left   = F_left_avg   / Ly;
-    P_bottom = F_bottom_avg / Lx;
-    P_right  = F_right_avg  / Ly;
-    P_top    = F_top_avg    / Lx;
-
-    % Average pressure across all four walls
-    P = mean(abs([P_left, P_right, P_top, P_bottom]));
-    % We take mean(abs(...)) for the average pressure since the pressures should not take
+    % Average pressure across all four walls, we take mean(abs(...)) for the average pressure since the pressures should not take
     % into account the signs of the forces, just the magnitudes of the forces,
 
+    P = mean(abs([Pl, Pr, Pt, Pb]));
 
 
     K_avg = mean(Ek(fix(0.1*end):end));  % average kinetic energy
